@@ -14,9 +14,13 @@ const rootSlice = createSlice({
         setMode: (state) => {
             state.mode = state.mode !== 'light' ? 'light' : 'dark';
         },
-        setUser: (state, action) => {
+        setLogin: (state, action) => {
             state.user = action.payload.user;
             state.token = action.payload.token;
+        },
+        setLogout: (state) => {
+            state.user = null;
+            state.token = null;
         },
         setFriends: (state, action) => {
             state.user.friends = action.payload.friends;
@@ -35,7 +39,7 @@ const rootSlice = createSlice({
     },
 });
 
-export const { setMode, setUser, setFriends, setPosts, setPost } =
+export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
     rootSlice.actions;
 
 export default rootSlice.reducer;
