@@ -23,7 +23,7 @@ const rootSlice = createSlice({
             state.token = null;
         },
         setFriends: (state, action) => {
-            state.user.friends = action.payload.friends;
+            state.user.friends = action.payload;
         },
         setPosts: (state, action) => {
             state.posts = action.payload.posts;
