@@ -170,7 +170,9 @@ const RegisterForm = ({ setPageType }) => {
                         p="1rem"
                     >
                         <Dropzone
-                            acceptedFiles=".jpg,.jpeg,.png"
+                            accept={{
+                                'image/*': ['.png', '.gif', '.jpeg', '.jpg'],
+                            }}
                             multiple={false}
                             onDrop={(acceptedFiles) =>
                                 formik.setFieldValue(
@@ -195,19 +197,6 @@ const RegisterForm = ({ setPageType }) => {
                                         <p>Add Picture Here</p>
                                     ) : (
                                         <FlexBetween>
-                                            <TextField
-                                                name="picture"
-                                                error={
-                                                    formik.touched.picture &&
-                                                    Boolean(
-                                                        formik.errors.picture
-                                                    )
-                                                }
-                                                helperText={
-                                                    formik.touched.picture &&
-                                                    formik.errors.picture
-                                                }
-                                            />
                                             <Typography>
                                                 {formik.values.picture.name}
                                             </Typography>

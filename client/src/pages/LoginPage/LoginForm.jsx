@@ -32,17 +32,21 @@ const LoginForm = () => {
     const isNonMobile = useMediaQuery('(min-width:600px)');
 
     const handleSubmit = async (values, formikBag) => {
-        const res = await fetch('http://localhost:3001/auth/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values),
-        });
-        formikBag.resetForm();
-        if (res.status !== 200) return handleOpenModal();
-        const data = await res.json();
-        if (data) {
-            dispatch(setLogin(data));
-            navigate('/home');
+        try {
+            const res = await fetch('http://localhost:3001/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(values),
+            });
+            formikBag.resetForm();
+            if (res.status !== 200) return handleOpenModal();
+            const data = await res.json();
+            if (data) {
+                dispatch(setLogin(data));
+                navigate('/home');
+            }
+        } catch (error) {
+            handleOpenModal();
         }
     };
 

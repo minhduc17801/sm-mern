@@ -9,7 +9,7 @@ import {
 const router = express.Router();
 
 router.get('/:id/friends', verifyToken, getUserFriends);
-router.get('/:id', verifyToken, getUser);
+router.get('/:id', getUser);
 
 router.patch('/:id/:fiendId', verifyToken, addRemoveFriend);
 
