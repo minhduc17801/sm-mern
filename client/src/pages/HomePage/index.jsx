@@ -8,7 +8,7 @@ import MyPostWidget from '../widgets/MyPostWidget';
 import PostsWidget from '../widgets/PostsWidget';
 
 function HomePage() {
-    const isNonMobile = useMediaQuery('(min-width: 768px)');
+    const isNonMobile = useMediaQuery('(min-width: 900px)');
     const { _id, picturePath } = useSelector((state) => state.user);
     return (
         <Box>

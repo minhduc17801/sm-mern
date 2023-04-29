@@ -8,6 +8,9 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import router from './routes/index.js';
+import User from './models/User.js';
+import Post from './models/Post.js';
+import { users, posts } from './data/index.js';
 
 // Configure
 const __filename = fileURLToPath(import.meta.url);
@@ -35,6 +38,9 @@ mongoose
     .then(() => {
         app.listen(PORT, () => {
             console.log(`listening on port ${PORT}`);
+            // add Data
+            // User.insertMany(users);
+            // Post.insertMany(posts);
         });
     })
     .catch((error) => console.log(`${error}`));

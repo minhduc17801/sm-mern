@@ -1,23 +1,20 @@
 import { Box, useTheme, Typography, IconButton } from '@mui/material';
-import { PersonRemoveOutlined } from '@mui/icons-material';
+import { PersonRemoveOutlined, PersonAddOutlined } from '@mui/icons-material';
 import FlexBetween from './FlexBetween';
 import UserImg from './UserImg';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFriends } from '../state/reducer';
 
-const Friend = ({
-    userId,
-    _id,
-    lastName,
-    firstName,
-    occupation,
-    picturePath,
-}) => {
+const Friend = ({ _id, lastName, firstName, occupation, picturePath }) => {
+    const userId = useSelector((state) => state.user._id);
     const token = useSelector((state) => state.token);
     const navigate = useNavigate();
+    const friends = useSelector((state) => state.user.friends);
     const dispatch = useDispatch();
     const { palette } = useTheme();
+
+    const isFriend = friends.find((friend) => friend._id === _id);
 
     const handlePatchFriend = async () => {
         try {
@@ -65,7 +62,13 @@ const Friend = ({
                 onClick={() => handlePatchFriend()}
                 sx={{ backgroundColor: palette.primary.light, p: '0.6rem' }}
             >
-                <PersonRemoveOutlined sx={{ color: palette.primary.dark }} />
+                {isFriend ? (
+                    <PersonRemoveOutlined
+                        sx={{ color: palette.primary.dark }}
+                    />
+                ) : (
+                    <PersonAddOutlined sx={{ color: palette.primary.dark }} />
+                )}
             </IconButton>
         </FlexBetween>
     );

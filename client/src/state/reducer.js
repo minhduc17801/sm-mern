@@ -17,6 +17,7 @@ const rootSlice = createSlice({
         setLogin: (state, action) => {
             state.user = action.payload.user;
             state.token = action.payload.token;
+            state.posts = [];
         },
         setLogout: (state) => {
             state.user = null;
@@ -26,12 +27,11 @@ const rootSlice = createSlice({
             state.user.friends = action.payload;
         },
         setPosts: (state, action) => {
-            state.posts = action.payload.posts;
+            state.posts = action.payload;
         },
         setPost: (state, action) => {
             const updatedPosts = state.posts.map((post) => {
-                if (post._id === action.payload.post._id)
-                    return action.payload.post;
+                if (post._id === action.payload._id) return action.payload;
                 return post;
             });
             state.posts = updatedPosts;
