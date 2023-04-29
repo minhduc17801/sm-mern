@@ -2,7 +2,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import Post from '../../components/Post';
 import { setPosts } from '../../state/reducer';
 import { useEffect } from 'react';
+import { Box, Typography, useTheme } from '@mui/material';
 const PostsWidget = ({ userId, isProfile = false }) => {
+    const { palette } = useTheme();
     const dispatch = useDispatch();
     const posts = useSelector((state) => state.posts);
     const getAllPosts = async () => {
@@ -40,6 +42,13 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             {posts.map((post, index) => (
                 <Post key={index} {...post} />
             ))}
+            {posts.length === 0 && (
+                <Box textAlign="center">
+                    <Typography variant="h1" color={palette.neutral.dark}>
+                        No Post
+                    </Typography>
+                </Box>
+            )}
         </>
     );
 };
