@@ -30,8 +30,7 @@ export const createPost = async (req, res) => {
 // GET /
 export const getAllPosts = async (req, res) => {
     try {
-        console.log(req.user);
-        const posts = await Post.find();
+        const posts = await Post.find().sort({ createdAt: -1 });
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({ error: error.message });
@@ -41,8 +40,9 @@ export const getAllPosts = async (req, res) => {
 //GET /:userId/posts
 export const getUserPosts = async (req, res) => {
     try {
-        const { userID } = req.params;
-        const posts = Post.find({ userID });
+        const { userId } = req.params;
+        const posts = await Post.find({ userId }).sort({ createdAt: -1 });
+        console.log(posts);
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({ error: error.message });
