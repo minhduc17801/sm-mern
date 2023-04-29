@@ -42,6 +42,31 @@ export const getUserFriends = async (req, res) => {
     }
 };
 
+export const getUserSearch = async (req, res) => {
+    try {
+        const search = req.params.search;
+        const searchString = new RegExp(search, 'ig');
+
+        const users = await User.aggregate()
+            .project({
+                fullName: { $concat: ['$firstName', ' ', '$lastName'] },
+                reversedName: { $concat: ['$lastName', ' ', '$firstName'] },
+                picturePath: 1,
+                occupation: 1,
+            })
+            .match({
+                $or: [
+                    { fullName: searchString },
+                    { reversedName: searchString },
+                ],
+            })
+            .exec();
+        res.json({ users: users });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 export const addRemoveFriend = async (req, res) => {
     try {
         const { id, friendId } = req.params;
