@@ -51,6 +51,7 @@ export const getUserSearch = async (req, res) => {
             .project({
                 fullName: { $concat: ['$firstName', ' ', '$lastName'] },
                 reversedName: { $concat: ['$lastName', ' ', '$firstName'] },
+                email: 1,
                 picturePath: 1,
                 occupation: 1,
             })
@@ -58,6 +59,7 @@ export const getUserSearch = async (req, res) => {
                 $or: [
                     { fullName: searchString },
                     { reversedName: searchString },
+                    { email: searchString },
                 ],
             })
             .exec();
