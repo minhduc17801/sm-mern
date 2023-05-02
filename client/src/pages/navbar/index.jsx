@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Box,
     IconButton,
@@ -38,6 +38,17 @@ const Navbar = () => {
     const background = theme.palette.background.default;
     const primaryLight = theme.palette.primary.light;
     const alt = theme.palette.background.alt;
+
+    useEffect(() => {
+        if (!isNonMobileScreens && isMobileMenuToggled) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'visible';
+        }
+        return () => {
+            document.body.style.overflow = 'visible';
+        };
+    }, [isMobileMenuToggled]);
 
     const fullName = `${user.firstName} ${user.lastName}`;
 
@@ -132,78 +143,89 @@ const Navbar = () => {
                     position="fixed"
                     right="0"
                     bottom="0"
-                    height="100%"
-                    zIndex="10"
-                    maxWidth="500px"
-                    minWidth="300px"
-                    backgroundColor={background}
+                    left="0"
+                    top="0"
+                    bgcolor="rgba(0, 0, 0, 0.3)"
+                    zIndex="5"
+                    overflow="hidden"
                 >
-                    {/* CLOSE ICON */}
-                    <Box display="flex" justifyContent="flex-end" p="1rem">
-                        <IconButton
-                            onClick={() =>
-                                setIsMobileMenuToggled(!isMobileMenuToggled)
-                            }
-                        >
-                            <Close />
-                        </IconButton>
-                    </Box>
-
-                    {/* MENU ITEMS */}
-                    <FlexBetween
-                        display="flex"
-                        flexDirection="column"
-                        justifyContent="center"
-                        alignItems="center"
-                        gap="3rem"
+                    <Box
+                        position="absolute"
+                        right="0"
+                        height="100%"
+                        top="0"
+                        zIndex="10"
+                        maxWidth="500px"
+                        minWidth="300px"
+                        backgroundColor={alt}
                     >
-                        <IconButton
-                            onClick={() => dispatch(setMode())}
-                            sx={{ fontSize: '25px' }}
-                        >
-                            {theme.palette.mode === 'dark' ? (
-                                <DarkMode sx={{ fontSize: '25px' }} />
-                            ) : (
-                                <LightMode
-                                    sx={{ color: dark, fontSize: '25px' }}
-                                />
-                            )}
-                        </IconButton>
-                        <Message sx={{ fontSize: '25px' }} />
-                        <Notifications sx={{ fontSize: '25px' }} />
-                        <Help sx={{ fontSize: '25px' }} />
-                        <FormControl variant="standard" value={fullName}>
-                            <Select
-                                value={fullName}
-                                sx={{
-                                    backgroundColor: neutralLight,
-                                    width: '150px',
-                                    borderRadius: '0.25rem',
-                                    p: '0.25rem 1rem',
-                                    '& .MuiSvgIcon-root': {
-                                        pr: '0.25rem',
-                                        width: '3rem',
-                                    },
-                                    '& .MuiSelect-select:focus': {
-                                        backgroundColor: neutralLight,
-                                    },
-                                }}
-                                input={<InputBase />}
+                        {/* CLOSE ICON */}
+                        <Box display="flex" justifyContent="flex-end" p="1rem">
+                            <IconButton
+                                onClick={() =>
+                                    setIsMobileMenuToggled(!isMobileMenuToggled)
+                                }
                             >
-                                <MenuItem value={fullName}>
-                                    <Typography>{fullName}</Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => {
-                                        navigate('/');
-                                        dispatch(setLogout());
+                                <Close />
+                            </IconButton>
+                        </Box>
+
+                        {/* MENU ITEMS */}
+                        <FlexBetween
+                            display="flex"
+                            flexDirection="column"
+                            justifyContent="center"
+                            alignItems="center"
+                            gap="3rem"
+                        >
+                            <IconButton
+                                onClick={() => dispatch(setMode())}
+                                sx={{ fontSize: '25px' }}
+                            >
+                                {theme.palette.mode === 'dark' ? (
+                                    <DarkMode sx={{ fontSize: '25px' }} />
+                                ) : (
+                                    <LightMode
+                                        sx={{ color: dark, fontSize: '25px' }}
+                                    />
+                                )}
+                            </IconButton>
+                            <Message sx={{ fontSize: '25px' }} />
+                            <Notifications sx={{ fontSize: '25px' }} />
+                            <Help sx={{ fontSize: '25px' }} />
+                            <FormControl variant="standard" value={fullName}>
+                                <Select
+                                    value={fullName}
+                                    sx={{
+                                        backgroundColor: neutralLight,
+                                        width: '150px',
+                                        borderRadius: '0.25rem',
+                                        p: '0.25rem 1rem',
+                                        '& .MuiSvgIcon-root': {
+                                            pr: '0.25rem',
+                                            width: '3rem',
+                                        },
+                                        '& .MuiSelect-select:focus': {
+                                            backgroundColor: neutralLight,
+                                        },
                                     }}
+                                    input={<InputBase />}
                                 >
-                                    Log Out
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                    </FlexBetween>
+                                    <MenuItem value={fullName}>
+                                        <Typography>{fullName}</Typography>
+                                    </MenuItem>
+                                    <MenuItem
+                                        onClick={() => {
+                                            navigate('/');
+                                            dispatch(setLogout());
+                                        }}
+                                    >
+                                        Log Out
+                                    </MenuItem>
+                                </Select>
+                            </FormControl>
+                        </FlexBetween>
+                    </Box>
                 </Box>
             )}
         </FlexBetween>
