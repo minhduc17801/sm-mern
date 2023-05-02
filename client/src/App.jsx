@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { themeSettings } from './theme';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const router = createBrowserRouter([
     {
@@ -16,11 +17,19 @@ const router = createBrowserRouter([
     },
     {
         path: '/home',
-        element: <HomePage />,
+        element: (
+            <ProtectedRoute>
+                <HomePage />
+            </ProtectedRoute>
+        ),
     },
     {
         path: '/profile/:userId',
-        element: <ProfilePage />,
+        element: (
+            <ProtectedRoute>
+                <ProfilePage />
+            </ProtectedRoute>
+        ),
     },
 ]);
 
