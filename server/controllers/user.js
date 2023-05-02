@@ -44,13 +44,15 @@ export const getUserFriends = async (req, res) => {
 
 export const getUserSearch = async (req, res) => {
     try {
-        const search = req.params.search;
+        const search = req.params.searchValue;
         const searchString = new RegExp(search, 'ig');
 
         const users = await User.aggregate()
             .project({
                 fullName: { $concat: ['$firstName', ' ', '$lastName'] },
                 reversedName: { $concat: ['$lastName', ' ', '$firstName'] },
+                lastName: 1,
+                firstName: 1,
                 email: 1,
                 picturePath: 1,
                 occupation: 1,
@@ -63,7 +65,7 @@ export const getUserSearch = async (req, res) => {
                 ],
             })
             .exec();
-        res.json({ users: users });
+        res.json(users);
     } catch (error) {
         console.log(error);
     }

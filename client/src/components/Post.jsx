@@ -56,7 +56,7 @@ const Post = ({
                 _id={userId}
                 lastName={lastName}
                 firstName={firstName}
-                occupation={location}
+                desc={location}
                 picturePath={userPicturePath}
             />
             <Typography color={palette.neutral.main} sx={{ mt: '1rem' }}>

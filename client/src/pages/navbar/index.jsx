@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import { useDebounce } from 'use-debounce';
 import {
     Box,
     IconButton,
@@ -9,6 +10,7 @@ import {
     FormControl,
     useTheme,
     useMediaQuery,
+    Popper,
 } from '@mui/material';
 import {
     Search,
@@ -24,14 +26,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setMode, setLogout } from '../../state/reducer';
 import { useNavigate } from 'react-router-dom';
 import FlexBetween from '../../components/FlexBetween';
+import WidgetWrapper from '../../components/WidgetWrapper';
+import Friend from '../../components/Friend';
 
 const Navbar = () => {
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [inputValue, setInputValue] = useState('');
+    const [searchValue, setSearchValue] = useState([]);
     const [isMobileMenuToggled, setIsMobileMenuToggled] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const user = useSelector((state) => state.user);
     const isNonMobileScreens = useMediaQuery('(min-width: 768px)');
+    const userId = useSelector((state) => state.user._id);
 
+    const searchRef = useRef(null);
     const theme = useTheme();
     const neutralLight = theme.palette.neutral.light;
     const dark = theme.palette.neutral.dark;
@@ -39,6 +48,13 @@ const Navbar = () => {
     const primaryLight = theme.palette.primary.light;
     const alt = theme.palette.background.alt;
 
+    const [debounceInputValue] = useDebounce(inputValue, 500);
+
+    const handleChange = (event) => {
+        setInputValue(event.target.value);
+    };
+
+    // Hide scroll bar when opening the mobile menu.
     useEffect(() => {
         if (!isNonMobileScreens && isMobileMenuToggled) {
             document.body.style.overflow = 'hidden';
@@ -50,39 +66,109 @@ const Navbar = () => {
         };
     }, [isMobileMenuToggled]);
 
-    const fullName = `${user.firstName} ${user.lastName}`;
+    useEffect(() => {
+        if (!debounceInputValue.trim()) {
+            setSearchValue([]);
+            return;
+        }
+        const search = async () => {
+            try {
+                const res = await fetch(
+                    `http://localhost:3001/user/search/${debounceInputValue.trim()}`
+                );
+                const searchResult = await res.json();
+                setSearchValue(searchResult);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        search();
+    }, [debounceInputValue]);
 
+    useEffect(() => {
+        if (searchValue.length > 0) {
+            setAnchorEl(searchRef.current);
+        } else {
+            setAnchorEl(null);
+        }
+    }, [searchValue]);
+
+    const fullName = `${user.firstName} ${user.lastName}`;
+    const open = Boolean(anchorEl);
+    const id = open ? 'search-popper' : undefined;
     return (
-        <FlexBetween padding="1rem 6%" backgroundColor={alt}>
-            <FlexBetween gap="1.75rem">
-                <Typography
-                    fontWeight="bold"
-                    fontSize="clamp(1rem, 2rem, 2.25rem)"
-                    color="primary"
-                    onClick={() => navigate('/home')}
-                    sx={{
-                        '&:hover': {
-                            color: primaryLight,
-                            cursor: 'pointer',
-                        },
-                    }}
-                >
-                    Social Media
-                </Typography>
-                {isNonMobileScreens && (
-                    <FlexBetween
-                        backgroundColor={neutralLight}
-                        borderRadius="9px"
-                        gap="3rem"
-                        padding="0.1rem 1.5rem"
-                    >
-                        <InputBase placeholder="Search..." />
-                        <IconButton>
-                            <Search />
-                        </IconButton>
-                    </FlexBetween>
-                )}
+        <FlexBetween padding="1rem 6%" backgroundColor={alt} gap="1.75rem">
+            {/* <FlexBetween gap="1.75rem"> */}
+            <Typography
+                fontWeight="bold"
+                fontSize="clamp(1rem, 2rem, 2.25rem)"
+                color="primary"
+                onClick={() => navigate('/home')}
+                sx={{
+                    '&:hover': {
+                        color: primaryLight,
+                        cursor: 'pointer',
+                    },
+                }}
+            >
+                SM
+            </Typography>
+            {/* {isNonMobileScreens && ( */}
+            <FlexBetween
+                aria-describedby={id}
+                ref={searchRef}
+                backgroundColor={neutralLight}
+                borderRadius="9px"
+                gap="3rem"
+                padding="0.1rem 1.5rem"
+            >
+                <InputBase
+                    placeholder="Search..."
+                    value={inputValue}
+                    onChange={handleChange}
+                />
+                <IconButton>
+                    <Search />
+                </IconButton>
             </FlexBetween>
+            <Popper
+                id={id}
+                open={open}
+                anchorEl={anchorEl}
+                popperOptions={{
+                    modifiers: [
+                        {
+                            name: 'offset',
+                            options: {
+                                offset: [0, 8],
+                            },
+                        },
+                    ],
+                }}
+            >
+                <WidgetWrapper
+                    // width={anchorEl && anchorEl.offsetWidth}
+                    width="auto"
+                    display="flex"
+                    flexDirection="column"
+                    gap="1.5rem"
+                    bgcl={background}
+                >
+                    {searchValue.map((friend, index) => (
+                        <Friend
+                            key={index}
+                            userId={userId}
+                            friendId={friend._id}
+                            lastName={friend.lastName}
+                            firstName={friend.firstName}
+                            desc={friend.email}
+                            picturePath={friend.picturePath}
+                        />
+                    ))}
+                </WidgetWrapper>
+            </Popper>
+            {/*  )} */}
+            {/* </FlexBetween> */}
 
             {/* DESKTOP NAV */}
             {isNonMobileScreens ? (

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFriends } from '../state/reducer';
 
-const Friend = ({ _id, lastName, firstName, occupation, picturePath }) => {
+const Friend = ({ _id, lastName, firstName, desc, picturePath }) => {
     const userId = useSelector((state) => state.user._id);
     const token = useSelector((state) => state.token);
     const navigate = useNavigate();
@@ -53,8 +53,12 @@ const Friend = ({ _id, lastName, firstName, occupation, picturePath }) => {
                     <Typography
                         color={palette.neutral.medium}
                         fontSize="0.75rem"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                        maxWidth="100%"
                     >
-                        {occupation}
+                        {desc}
                     </Typography>
                 </Box>
             </FlexBetween>
