@@ -6,20 +6,21 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFriends } from '../state/reducer';
 
-const Friend = ({ _id, lastName, firstName, desc, picturePath }) => {
+const Friend = ({ friendId, lastName, firstName, desc, picturePath }) => {
     const userId = useSelector((state) => state.user._id);
     const token = useSelector((state) => state.token);
     const navigate = useNavigate();
     const friends = useSelector((state) => state.user.friends);
     const dispatch = useDispatch();
     const { palette } = useTheme();
+    const isMe = friendId === userId;
 
-    const isFriend = friends.find((friend) => friend._id === _id);
+    const isFriend = friends.find((friend) => friend._id === friendId);
 
     const handlePatchFriend = async () => {
         try {
             const res = await fetch(
-                `http://localhost:3001/user/${userId}/${_id}`,
+                `http://localhost:3001/user/${userId}/${friendId}`,
                 {
                     method: 'PATCH',
                     headers: {
@@ -32,11 +33,28 @@ const Friend = ({ _id, lastName, firstName, desc, picturePath }) => {
             dispatch(setFriends(friends));
         } catch (error) {}
     };
+
+    let FriendIcon = isFriend ? (
+        <IconButton
+            onClick={() => handlePatchFriend()}
+            sx={{ backgroundColor: palette.primary.light, p: '0.6rem' }}
+        >
+            <PersonRemoveOutlined sx={{ color: palette.primary.dark }} />
+        </IconButton>
+    ) : (
+        <IconButton
+            onClick={() => handlePatchFriend()}
+            sx={{ backgroundColor: palette.primary.light, p: '0.6rem' }}
+        >
+            <PersonAddOutlined sx={{ color: palette.primary.dark }} />
+        </IconButton>
+    );
+
     return (
         <FlexBetween>
             <FlexBetween gap="1rem">
                 <UserImg img={picturePath} size="55px" />
-                <Box onClick={() => navigate(`/profile/${_id}`)}>
+                <Box onClick={() => navigate(`/profile/${friendId}`)}>
                     <Typography
                         color={palette.neutral.main}
                         variant="h5"
@@ -62,18 +80,7 @@ const Friend = ({ _id, lastName, firstName, desc, picturePath }) => {
                     </Typography>
                 </Box>
             </FlexBetween>
-            <IconButton
-                onClick={() => handlePatchFriend()}
-                sx={{ backgroundColor: palette.primary.light, p: '0.6rem' }}
-            >
-                {isFriend ? (
-                    <PersonRemoveOutlined
-                        sx={{ color: palette.primary.dark }}
-                    />
-                ) : (
-                    <PersonAddOutlined sx={{ color: palette.primary.dark }} />
-                )}
-            </IconButton>
+            {!isMe && FriendIcon}
         </FlexBetween>
     );
 };

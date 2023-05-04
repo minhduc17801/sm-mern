@@ -51,9 +51,9 @@ const Post = ({
     };
 
     return (
-        <WidgetWrapper m="2rem 0">
+        <WidgetWrapper mb="2rem">
             <Friend
-                _id={userId}
+                friendId={userId}
                 lastName={lastName}
                 firstName={firstName}
                 desc={location}

@@ -6,11 +6,14 @@ import MyPostWidget from '../widgets/MyPostWidget';
 import PostsWidget from '../widgets/PostsWidget';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 function ProfilePage() {
     const [user, setUser] = useState(null);
+    const loggedInUser = useSelector((state) => state.user);
     const isNonMobile = useMediaQuery('(min-width: 768px)');
     const { userId } = useParams();
+    const isLoggedInUser = userId === loggedInUser._id;
 
     useEffect(() => {
         const getUser = async (userId) => {
@@ -43,14 +46,15 @@ function ProfilePage() {
                         picturePath={user.picturePath}
                     />
                     <Box m="2rem 0" />
-                    <FriendListWidget userId={userId} />
+                    {isLoggedInUser && <FriendListWidget userId={userId} />}
                 </Box>
                 <Box
                     flexBasis={isNonMobile ? '42%' : undefined}
                     mt={isNonMobile ? undefined : '2rem'}
                 >
-                    <MyPostWidget picturePath={user.picturePath} />
-                    <Box m="2rem 0" />
+                    {/* {isLoggedInUser && (
+                        <MyPostWidget picturePath={user.picturePath} />
+                    )} */}
                     <PostsWidget userId={userId} isProfile />
                 </Box>
             </Box>

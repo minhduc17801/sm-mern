@@ -51,6 +51,7 @@ const MyPostWidget = ({ picturePath }) => {
                 },
                 body: form,
             });
+            if (res.status >= 400) return;
             const posts = await res.json();
             dispatch(setPosts(posts));
             setInput('');
@@ -62,7 +63,7 @@ const MyPostWidget = ({ picturePath }) => {
     };
 
     return (
-        <WidgetWrapper>
+        <WidgetWrapper mb="2rem">
             <FlexBetween gap="1.5rem">
                 <UserImg img={picturePath} />
                 <InputBase
