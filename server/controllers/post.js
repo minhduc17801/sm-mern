@@ -20,7 +20,7 @@ export const createPost = async (req, res) => {
             comments: [],
         });
         await newPost.save();
-        const posts = await Post.find();
+        const posts = await Post.find().sort({ createdAt: -1 });
         res.status(201).json(posts);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -42,7 +42,6 @@ export const getUserPosts = async (req, res) => {
     try {
         const { userId } = req.params;
         const posts = await Post.find({ userId }).sort({ createdAt: -1 });
-        console.log(posts);
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({ error: error.message });
