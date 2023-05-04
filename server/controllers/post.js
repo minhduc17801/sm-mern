@@ -41,7 +41,11 @@ export const getAllPosts = async (req, res) => {
 export const getUserPosts = async (req, res) => {
     try {
         const { userId } = req.params;
-        const posts = await Post.find({ userId }).sort({ createdAt: -1 });
+        const posts = await Post.find({
+            userId,
+        })
+            .populate('userId')
+            .sort({ createdAt: -1 });
         res.status(200).json(posts);
     } catch (error) {
         res.status(404).json({ error: error.message });
