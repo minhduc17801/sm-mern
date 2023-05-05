@@ -40,7 +40,12 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     return (
         <>
             {posts.map((post, index) => (
-                <Post key={index} {...post} />
+                <Post
+                    key={index}
+                    {...post}
+                    userPicturePath={post.user.picturePath}
+                    userId={post.user._id}
+                />
             ))}
             {posts.length === 0 && (
                 <Box textAlign="center">

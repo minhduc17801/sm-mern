@@ -10,7 +10,8 @@ import { fileURLToPath } from 'url';
 import router from './routes/index.js';
 import User from './models/User.js';
 import Post from './models/Post.js';
-import { users, posts } from './data/index.js';
+import Comment from './models/Comment.js';
+import { users, posts, comments } from './data/index.js';
 
 // Configure
 const __filename = fileURLToPath(import.meta.url);
@@ -41,6 +42,7 @@ mongoose
             // add Data
             // User.insertMany(users);
             // Post.insertMany(posts);
+            // Comment.insertMany(comments);
         });
     })
     .catch((error) => console.log(`${error}`));
