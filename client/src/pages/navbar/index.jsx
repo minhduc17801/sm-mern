@@ -74,7 +74,9 @@ const Navbar = () => {
         const search = async () => {
             try {
                 const res = await fetch(
-                    `http://localhost:3001/user/search/${debounceInputValue.trim()}`
+                    `${
+                        import.meta.env.VITE_API_URL
+                    }/user/search/${debounceInputValue.trim()}`
                 );
                 const searchResult = await res.json();
                 setSearchValue(searchResult);

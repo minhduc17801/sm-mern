@@ -46,14 +46,17 @@ const Post = ({
 
     const patchLike = async () => {
         try {
-            const res = await fetch(`http://localhost:3001/post/${_id}/like`, {
-                method: 'PATCH',
-                headers: {
-                    authorization: 'Bearer ' + token,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ userId: loggedInUserId }),
-            });
+            const res = await fetch(
+                `${import.meta.env.VITE_API_URL}/post/${_id}/like`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        authorization: 'Bearer ' + token,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: loggedInUserId }),
+                }
+            );
             const post = await res.json();
             dispatch(setPost(post));
         } catch (error) {
@@ -64,7 +67,7 @@ const Post = ({
     const handleLikeComment = async (commentId) => {
         try {
             const res = await fetch(
-                `http://localhost:3001/comment/${commentId}/like`,
+                `${import.meta.env.VITE_API_URL}/comment/${commentId}/like`,
                 {
                     method: 'PATCH',
                     headers: {
@@ -83,17 +86,20 @@ const Post = ({
 
     const handlePostCmt = async () => {
         try {
-            const res = await fetch(`http://localhost:3001/comment/create`, {
-                method: 'POST',
-                headers: {
-                    authorization: 'Bearer ' + token,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    description: cmtInput,
-                    postId: _id,
-                }),
-            });
+            const res = await fetch(
+                `${import.meta.env.VITE_API_URL}/comment/create`,
+                {
+                    method: 'POST',
+                    headers: {
+                        authorization: 'Bearer ' + token,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        description: cmtInput,
+                        postId: _id,
+                    }),
+                }
+            );
             if (res.status < 400) {
                 const comments = await res.json();
                 setComments(comments);
@@ -107,7 +113,9 @@ const Post = ({
     useEffect(() => {
         const getComments = async () => {
             try {
-                const res = await fetch(`http://localhost:3001/comment/${_id}`);
+                const res = await fetch(
+                    `${import.meta.env.VITE_API_URL}/comment/${_id}`
+                );
                 const rs = await res.json();
                 setComments(rs);
             } catch (error) {
@@ -135,7 +143,9 @@ const Post = ({
                     height="auto"
                     alt="post"
                     style={{ borderRadius: '0.75rem', marginTop: '0.75rem' }}
-                    src={`http://localhost:3001/assets/${picturePath}`}
+                    src={`${
+                        import.meta.env.VITE_API_URL
+                    }/assets/${picturePath}`}
                 />
             )}
             <FlexBetween mt="0.25rem">

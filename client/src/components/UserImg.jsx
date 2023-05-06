@@ -8,7 +8,7 @@ const UserImg = ({ img, size = '60px' }) => {
                 width={size}
                 height={size}
                 alt="user"
-                src={`http://localhost:3001/assets/${img}`}
+                src={`${import.meta.env.VITE_API_URL}/assets/${img}`}
             />
         </Box>
     );

@@ -20,7 +20,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const getUserPosts = async () => {
         try {
             const res = await fetch(
-                `http://localhost:3001/post/${userId}/posts`
+                `${import.meta.env.VITE_API_URL}/post/${userId}/posts`
             );
             const posts = await res.json();
             dispatch(setPosts(posts));

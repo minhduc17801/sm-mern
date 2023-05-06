@@ -19,7 +19,9 @@ const UserWidget = ({ userId }) => {
     useEffect(() => {
         const getUser = async (id) => {
             try {
-                const res = await fetch(`http://localhost:3001/user/${id}`);
+                const res = await fetch(
+                    `${import.meta.env.VITE_API_URL}/user/${id}`
+                );
                 if (res.status >= 200 && res.status <= 299) {
                     const user = await res.json();
                     setUser(user);

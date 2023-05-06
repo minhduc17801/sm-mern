@@ -18,7 +18,9 @@ function ProfilePage() {
     useEffect(() => {
         const getUser = async (userId) => {
             try {
-                const res = await fetch(`http://localhost:3001/user/${userId}`);
+                const res = await fetch(
+                    `${import.meta.env.VITE_API_URL}/user/${userId}`
+                );
                 const user = await res.json();
                 setUser(user);
             } catch (error) {

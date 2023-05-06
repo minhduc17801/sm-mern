@@ -13,7 +13,7 @@ const FriendListWidget = ({ userId }) => {
         const getFriends = async (userId) => {
             try {
                 const res = await fetch(
-                    `http://localhost:3001/user/${userId}/friends`
+                    `${import.meta.env.VITE_API_URL}/user/${userId}/friends`
                 );
                 const friends = await res.json();
                 dispatch(setFriends(friends));
