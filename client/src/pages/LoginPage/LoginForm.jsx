@@ -33,11 +33,14 @@ const LoginForm = () => {
 
     const handleSubmit = async (values, formikBag) => {
         try {
-            const res = await fetch('http://localhost:3001/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(values),
-            });
+            const res = await fetch(
+                `${import.meta.env.VITE_API_URL}/auth/login`,
+                {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(values),
+                }
+            );
             formikBag.resetForm();
             if (res.status !== 200) return handleOpenModal();
             const data = await res.json();

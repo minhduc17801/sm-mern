@@ -44,13 +44,16 @@ const MyPostWidget = ({ picturePath }) => {
             if (image) {
                 form.append('picture', image);
             }
-            const res = await fetch('http://localhost:3001/post/create', {
-                method: 'POST',
-                headers: {
-                    Authorization: 'Bearer ' + token,
-                },
-                body: form,
-            });
+            const res = await fetch(
+                `${import.meta.env.VITE_API_URL}/post/create`,
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: 'Bearer ' + token,
+                    },
+                    body: form,
+                }
+            );
             if (res.status >= 400) return;
             const posts = await res.json();
             dispatch(setPosts(posts));

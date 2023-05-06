@@ -9,7 +9,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const posts = useSelector((state) => state.posts);
     const getAllPosts = async () => {
         try {
-            const res = await fetch('http://localhost:3001/post');
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/post`);
             const posts = await res.json();
             dispatch(setPosts(posts));
         } catch (error) {

@@ -45,10 +45,13 @@ const RegisterForm = ({ setPageType }) => {
             formData.append(key, values[key]);
         }
 
-        const res = await fetch('http://localhost:3001/auth/register', {
-            method: 'POST',
-            body: formData,
-        });
+        const res = await fetch(
+            `${import.meta.env.VITE_API_URL}/auth/register`,
+            {
+                method: 'POST',
+                body: formData,
+            }
+        );
 
         if (res.status >= 200 && res.status <= 299) {
             setMsg('Successful registration');
