@@ -123,7 +123,7 @@ const Post = ({
             }
         };
         getComments();
-    }, []);
+    }, [_id]);
 
     return (
         <WidgetWrapper mb="2rem">
