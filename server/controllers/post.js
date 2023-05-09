@@ -1,17 +1,21 @@
 import Post from '../models/Post.js';
-import User from '../models/User.js';
+import { uploadToDrive } from '../utils/googleDrive.js';
 
 // POST /create
 export const createPost = async (req, res) => {
     try {
+        let imgId = '';
         const { userId, description } = req.body;
-        console.log(userId, description);
         if (userId !== req.user.id)
             return res.status(403).json({ msg: 'access denied' });
+        if (req.file) {
+            const drive = await uploadToDrive(req.file);
+            imgId = drive.id;
+        }
         const newPost = new Post({
             user: userId,
             description,
-            picturePath: req.file ? req.file.filename : '',
+            imgId,
             likes: [],
         });
         await newPost.save();

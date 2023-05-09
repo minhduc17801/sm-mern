@@ -21,23 +21,13 @@ import { useEffect, useState } from 'react';
 import { setPost } from '../state/reducer';
 import UserImg from './UserImg';
 
-const Post = ({
-    _id,
-    user,
-    userId,
-    description,
-    userPicturePath,
-    picturePath,
-    likes,
-}) => {
+const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
     const [cmtInput, setCmtInput] = useState('');
     const [comments, setComments] = useState([]);
     const { firstName, lastName, location } = user;
     const { palette } = useTheme();
     const loggedInUserId = useSelector((state) => state.user._id);
-    const loggedInUserPicturePath = useSelector(
-        (state) => state.user.picturePath
-    );
+    const loggedInUserimgId = useSelector((state) => state.user.imgId);
     const isLiked = Boolean(likes.some((id) => id === loggedInUserId));
     const likeCount = Object.keys(likes).length;
     const [isComments, setIsComments] = useState(false);
@@ -132,20 +122,18 @@ const Post = ({
                 lastName={lastName}
                 firstName={firstName}
                 desc={location}
-                picturePath={userPicturePath}
+                imgId={userimgId}
             />
             <Typography color={palette.neutral.main} sx={{ mt: '1rem' }}>
                 {description}
             </Typography>
-            {picturePath && (
+            {imgId && (
                 <img
                     width="100%"
                     height="auto"
                     alt="post"
                     style={{ borderRadius: '0.75rem', marginTop: '0.75rem' }}
-                    src={`${
-                        import.meta.env.VITE_API_URL
-                    }/assets/${picturePath}`}
+                    src={`${import.meta.env.VITE_IMG_URL_PREFIX}${imgId}`}
                 />
             )}
             <FlexBetween mt="0.25rem">
@@ -191,7 +179,7 @@ const Post = ({
                                     }}
                                 >
                                     <UserImg
-                                        img={comment.user.picturePath}
+                                        imgId={comment.user.imgId}
                                         size="30px"
                                     />
                                     <IconButton
@@ -237,7 +225,7 @@ const Post = ({
                     ))}
                     <Divider />
                     <FlexBetween gap="1rem" mt="8px">
-                        <UserImg img={loggedInUserPicturePath} size="40px" />
+                        <UserImg imgId={loggedInUserimgId} size="40px" />
                         <InputBase
                             value={cmtInput}
                             onChange={(e) => setCmtInput(e.target.value)}

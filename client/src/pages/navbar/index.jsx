@@ -164,7 +164,7 @@ const Navbar = () => {
                             lastName={friend.lastName}
                             firstName={friend.firstName}
                             desc={friend.email}
-                            picturePath={friend.picturePath}
+                            imgId={friend.imgId}
                         />
                     ))}
                 </WidgetWrapper>

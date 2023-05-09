@@ -9,7 +9,7 @@ const postSchema = mongoose.Schema(
         },
         location: String,
         description: String,
-        picturePath: String,
+        imgId: String,
         likes: [
             {
                 type: mongoose.Schema.Types.ObjectId,

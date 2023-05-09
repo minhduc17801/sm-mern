@@ -19,7 +19,7 @@ const AdvertWidget = () => {
                 width="100%"
                 height="auto"
                 alt="advert"
-                src={`${import.meta.env.VITE_API_URL}/assets/info4.jpeg`}
+                src={`../assets/images/ads.jpeg`}
                 style={{ borderRadius: '0.75rem', margin: '0.75rem 0' }}
             />
             <FlexBetween>

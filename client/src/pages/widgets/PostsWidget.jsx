@@ -43,7 +43,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
                 <Post
                     key={index}
                     {...post}
-                    userPicturePath={post.user.picturePath}
+                    userimgId={post.user.imgId}
                     userId={post.user._id}
                 />
             ))}

@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get('/', getAllPosts);
 router.get('/:userId/posts', getUserPosts);
-router.post('/create', verifyToken, upload.single('picture'), createPost);
+router.post('/create', verifyToken, upload.single('image'), createPost);
 router.patch('/:id/like', verifyToken, likePost);
 
 export default router;

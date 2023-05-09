@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema(
             required: true,
             min: 5,
         },
-        picturePath: {
+        imgId: {
             type: String,
             default: '',
         },

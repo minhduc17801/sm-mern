@@ -21,7 +21,7 @@ const validationSchema = yup.object({
     password: yup.string().min(5).trim().required(),
     location: yup.string().trim().required(),
     occupation: yup.string().trim().required(),
-    picture: yup.mixed().required(),
+    image: yup.mixed().required(),
 });
 
 const initialValues = {
@@ -178,10 +178,7 @@ const RegisterForm = ({ setPageType }) => {
                             }}
                             multiple={false}
                             onDrop={(acceptedFiles) =>
-                                formik.setFieldValue(
-                                    'picture',
-                                    acceptedFiles[0]
-                                )
+                                formik.setFieldValue('image', acceptedFiles[0])
                             }
                         >
                             {({ getRootProps, getInputProps }) => (
@@ -196,12 +193,12 @@ const RegisterForm = ({ setPageType }) => {
                                     }}
                                 >
                                     <input {...getInputProps()} />
-                                    {!formik.values.picture ? (
-                                        <p>Add Picture Here</p>
+                                    {!formik.values.image ? (
+                                        <p>Add Image Here</p>
                                     ) : (
                                         <FlexBetween>
                                             <Typography>
-                                                {formik.values.picture.name}
+                                                {formik.values.image.name}
                                             </Typography>
                                             <EditOutlinedIcon />
                                         </FlexBetween>

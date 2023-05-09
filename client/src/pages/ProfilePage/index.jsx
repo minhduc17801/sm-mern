@@ -43,10 +43,7 @@ function ProfilePage() {
                 justifyContent="center"
             >
                 <Box flexBasis={isNonMobile ? '26%' : undefined}>
-                    <UserWidget
-                        userId={userId}
-                        picturePath={user.picturePath}
-                    />
+                    <UserWidget userId={userId} imgId={user.imgId} />
                     <Box m="2rem 0" />
                     {isLoggedInUser && <FriendListWidget userId={userId} />}
                 </Box>
@@ -55,7 +52,7 @@ function ProfilePage() {
                     mt={isNonMobile ? undefined : '2rem'}
                 >
                     {/* {isLoggedInUser && (
-                        <MyPostWidget picturePath={user.picturePath} />
+                        <MyPostWidget imgId={user.imgId} />
                     )} */}
                     <PostsWidget userId={userId} isProfile />
                 </Box>

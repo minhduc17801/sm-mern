@@ -37,8 +37,7 @@ const UserWidget = ({ userId }) => {
 
     if (!user) return null;
 
-    const { firstName, lastName, location, occupation, friends, picturePath } =
-        user;
+    const { firstName, lastName, location, occupation, friends, imgId } = user;
 
     return (
         <WidgetWrapper>
@@ -48,7 +47,7 @@ const UserWidget = ({ userId }) => {
                 onClick={() => navigate(`/profile/${userId}`)}
             >
                 <FlexBetween gap="1rem">
-                    <UserImg img={picturePath} />
+                    <UserImg imgId={imgId} />
                     <Box>
                         <Typography
                             variant="h4"

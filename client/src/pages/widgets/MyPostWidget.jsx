@@ -26,7 +26,7 @@ import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from '../../state/reducer';
 
-const MyPostWidget = ({ picturePath }) => {
+const MyPostWidget = ({ imgId }) => {
     const [input, setInput] = useState('');
     const [isImage, setIsImage] = useState(false);
     const [image, setImage] = useState(null);
@@ -42,7 +42,7 @@ const MyPostWidget = ({ picturePath }) => {
             form.append('userId', _id);
             form.append('description', input);
             if (image) {
-                form.append('picture', image);
+                form.append('image', image);
             }
             const res = await fetch(
                 `${import.meta.env.VITE_API_URL}/post/create`,
@@ -68,7 +68,7 @@ const MyPostWidget = ({ picturePath }) => {
     return (
         <WidgetWrapper mb="2rem">
             <FlexBetween gap="1.5rem">
-                <UserImg img={picturePath} />
+                <UserImg imgId={imgId} />
                 <InputBase
                     placeholder="What's on your mind..."
                     value={input}

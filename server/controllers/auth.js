@@ -1,20 +1,26 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { uploadToDrive } from '../utils/googleDrive.js';
 
 // POST /auth/register
 export const register = async (req, res) => {
     try {
+        let imgId = '';
         const { firstName, lastName, email, password, location, occupation } =
             req.body;
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
+        if (req.file) {
+            const drive = await uploadToDrive(req.file);
+            imgId = drive.id;
+        }
         const newUser = new User({
             firstName,
             lastName,
             email,
             password: passwordHash,
-            picturePath: req.file.filename,
+            imgId,
             location,
             occupation,
         });

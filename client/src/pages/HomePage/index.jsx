@@ -9,7 +9,7 @@ import PostsWidget from '../widgets/PostsWidget';
 
 function HomePage() {
     const isNonMobile = useMediaQuery('(min-width: 900px)');
-    const { _id, picturePath } = useSelector((state) => state.user);
+    const { _id, imgId } = useSelector((state) => state.user);
     return (
         <Box>
             <Navbar />
@@ -29,7 +29,7 @@ function HomePage() {
                     flexBasis={isNonMobile ? '42%' : undefined}
                     mt={isNonMobile ? undefined : '2rem'}
                 >
-                    <MyPostWidget picturePath={picturePath} />
+                    <MyPostWidget imgId={imgId} />
                     <PostsWidget userId={_id} />
                 </Box>
                 {isNonMobile && (

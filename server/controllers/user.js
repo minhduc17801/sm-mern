@@ -16,20 +16,13 @@ export const getUserFriends = async (req, res) => {
         const id = req.params.id;
         const user = await User.findById(id).populate('friends');
         const formattedFriends = user.friends.map(
-            ({
+            ({ _id, firstName, lastName, occupation, location, imgId }) => ({
                 _id,
                 firstName,
                 lastName,
                 occupation,
                 location,
-                picturePath,
-            }) => ({
-                _id,
-                firstName,
-                lastName,
-                occupation,
-                location,
-                picturePath,
+                imgId,
             })
         );
 
@@ -51,7 +44,7 @@ export const getUserSearch = async (req, res) => {
                 lastName: 1,
                 firstName: 1,
                 email: 1,
-                picturePath: 1,
+                imgId: 1,
                 occupation: 1,
             })
             .match({
@@ -90,20 +83,13 @@ export const addRemoveFriend = async (req, res) => {
             user.friends.map((id) => User.findById(id))
         );
         const formattedFriends = friends.map(
-            ({
+            ({ _id, firstName, lastName, occupation, location, imgId }) => ({
                 _id,
                 firstName,
                 lastName,
                 occupation,
                 location,
-                picturePath,
-            }) => ({
-                _id,
-                firstName,
-                lastName,
-                occupation,
-                location,
-                picturePath,
+                imgId,
             })
         );
         res.status(200).json(formattedFriends);
