@@ -9,7 +9,6 @@ import {
     Typography,
     Divider,
     useMediaQuery,
-    Button,
 } from '@mui/material';
 import {
     DeleteOutlined,
@@ -21,12 +20,14 @@ import {
     CloseOutlined,
     MoreHorizOutlined,
 } from '@mui/icons-material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { useState } from 'react';
 import Dropzone from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPosts } from '../../state/reducer';
 
 const MyPostWidget = ({ imgId }) => {
+    const [loading, setLoading] = useState(false);
     const [input, setInput] = useState('');
     const [isImage, setIsImage] = useState(false);
     const [image, setImage] = useState(null);
@@ -37,6 +38,7 @@ const MyPostWidget = ({ imgId }) => {
     const isNonMobile = useMediaQuery('(min-width: 768px)');
 
     const handlePost = async () => {
+        setLoading(true);
         try {
             const form = new FormData();
             form.append('userId', _id);
@@ -62,6 +64,8 @@ const MyPostWidget = ({ imgId }) => {
             setIsImage(false);
         } catch (error) {
             console.log(error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -193,20 +197,21 @@ const MyPostWidget = ({ imgId }) => {
                     </FlexBetween>
                 )}
 
-                <Button
-                    disabled={!input && !image}
+                <LoadingButton
+                    loading={loading}
+                    disabled={(!input && !image) || loading}
                     onClick={handlePost}
                     sx={{
                         color: palette.background.alt,
                         backgroundColor:
-                            !input && !image
+                            (!input && !image) || loading
                                 ? palette.neutral.medium
                                 : palette.primary.main,
                         borderRadius: '3rem',
                     }}
                 >
                     POST
-                </Button>
+                </LoadingButton>
             </FlexBetween>
         </WidgetWrapper>
     );

@@ -13,6 +13,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import FlexBetween from '../../components/FlexBetween';
 import { useState } from 'react';
 import Dropzone from 'react-dropzone';
+import LoadingButton from '@mui/lab/LoadingButton/LoadingButton';
 
 const validationSchema = yup.object({
     firstName: yup.string().trim().required(),
@@ -34,32 +35,36 @@ const initialValues = {
 };
 
 const RegisterForm = ({ setPageType }) => {
+    const [loading, setLoading] = useState(false);
     const [openLoginModal, setOpenModal] = useState(false);
-    const [msg, setMsg] = useState('');
+    const [msg, setMsg] = useState('Failed registration');
     const { palette } = useTheme();
     const isNonMobile = useMediaQuery('(min-width:600px)');
 
     const handleSubmit = async (values) => {
-        const formData = new FormData();
-        for (const key in values) {
-            formData.append(key, values[key]);
-        }
-
-        const res = await fetch(
-            `${import.meta.env.VITE_API_URL}/auth/register`,
-            {
-                method: 'POST',
-                body: formData,
+        setLoading(true);
+        try {
+            const formData = new FormData();
+            for (const key in values) {
+                formData.append(key, values[key]);
             }
-        );
 
-        if (res.status >= 200 && res.status <= 299) {
-            setMsg('Successful registration');
-        } else {
-            setMsg('Failed registration');
+            const res = await fetch(
+                `${import.meta.env.VITE_API_URL}/auth/register`,
+                {
+                    method: 'POST',
+                    body: formData,
+                }
+            );
+            if (res.status >= 200 && res.status <= 299) {
+                setMsg('Successful registration');
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            handleOpenModal();
+            setLoading(false);
         }
-
-        handleOpenModal();
     };
     const formik = useFormik({
         initialValues,
@@ -239,19 +244,22 @@ const RegisterForm = ({ setPageType }) => {
                     />
                 </Box>
                 <Box>
-                    <Button
+                    <LoadingButton
+                        loading={loading}
                         fullWidth
                         type="submit"
                         sx={{
                             m: '2rem 0',
                             p: '1rem',
-                            backgroundColor: palette.primary.main,
+                            backgroundColor: loading
+                                ? palette.neutral.medium
+                                : palette.primary.main,
                             color: palette.background.alt,
                             '&:hover': { color: palette.primary.main },
                         }}
                     >
                         REGISTER
-                    </Button>
+                    </LoadingButton>
                 </Box>
             </form>
             <div>
