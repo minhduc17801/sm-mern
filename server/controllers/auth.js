@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import { uploadToDrive } from '../utils/googleDrive.js';
+import fs from 'fs';
 
 // POST /auth/register
 export const register = async (req, res) => {
@@ -9,6 +10,23 @@ export const register = async (req, res) => {
         let imgId = '';
         const { firstName, lastName, email, password, location, occupation } =
             req.body;
+        // POST create chat engine user
+        const buffer = fs.readFileSync(req.file.path);
+        const blob = new Blob([buffer], { type: 'application/octet-stream' });
+        const myHeaders = new Headers();
+        myHeaders.append('PRIVATE-KEY', 'e6f26c45-6dee-42af-b872-f13c02470b49');
+        const formData = new FormData();
+        formData.append('avatar', blob, req.file.originalname);
+        formData.append('username', email);
+        formData.append('secret', email);
+        formData.append('email', email);
+        formData.append('first_name', firstName);
+        formData.append('last_name', lastName);
+        await fetch('https://api.chatengine.io/users/', {
+            method: 'POST',
+            headers: myHeaders,
+            body: formData,
+        });
         const salt = await bcrypt.genSalt();
         const passwordHash = await bcrypt.hash(password, salt);
         if (req.file) {

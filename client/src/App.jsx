@@ -9,6 +9,7 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 import { themeSettings } from './theme';
 import ProtectedRoute from './components/ProtectedRoute';
+import ChatPage from './pages/ChatPage';
 
 const router = createBrowserRouter([
     {
@@ -28,6 +29,14 @@ const router = createBrowserRouter([
         element: (
             <ProtectedRoute>
                 <ProfilePage />
+            </ProtectedRoute>
+        ),
+    },
+    {
+        path: '/chat',
+        element: (
+            <ProtectedRoute>
+                <ChatPage />
             </ProtectedRoute>
         ),
     },
