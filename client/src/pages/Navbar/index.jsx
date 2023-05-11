@@ -64,6 +64,7 @@ const Navbar = () => {
         return () => {
             document.body.style.overflow = 'visible';
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isMobileMenuToggled]);
 
     useEffect(() => {

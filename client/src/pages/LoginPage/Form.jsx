@@ -1,4 +1,3 @@
-import * as yup from 'yup';
 import { useTheme, Typography } from '@mui/material';
 import { useState } from 'react';
 import LoginForm from './LoginForm';

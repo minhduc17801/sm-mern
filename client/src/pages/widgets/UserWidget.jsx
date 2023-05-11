@@ -28,6 +28,7 @@ const UserWidget = ({ userId }) => {
                     const user = await res.json();
                     setUser(user);
                 } else {
+                    // eslint-disable-next-line no-throw-literal
                     throw 'Get user failed: ' + res.status;
                 }
             } catch (error) {
@@ -35,6 +36,7 @@ const UserWidget = ({ userId }) => {
             }
         };
         getUser(userId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!user) return null;

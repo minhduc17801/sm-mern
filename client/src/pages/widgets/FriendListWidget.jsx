@@ -1,7 +1,7 @@
 import WidgetWrapper from '../../components/WidgetWrapper';
 import Friend from '../../components/Friend';
 import { Typography, Box, useTheme } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setFriends } from '../../state/reducer';
 
@@ -23,6 +23,7 @@ const FriendListWidget = ({ userId }) => {
         };
 
         getFriends(userId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!friends) return null;

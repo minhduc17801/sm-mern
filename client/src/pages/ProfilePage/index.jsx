@@ -2,7 +2,6 @@ import { useMediaQuery, Box } from '@mui/material';
 import Navbar from '../Navbar';
 import UserWidget from '../widgets/UserWidget';
 import FriendListWidget from '../widgets/FriendListWidget';
-import MyPostWidget from '../widgets/MyPostWidget';
 import PostsWidget from '../widgets/PostsWidget';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -29,6 +28,7 @@ function ProfilePage() {
         };
 
         getUser(userId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!user) return null;

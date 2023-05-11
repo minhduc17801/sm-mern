@@ -35,6 +35,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         } else {
             getAllPosts();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
