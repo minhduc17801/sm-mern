@@ -37,7 +37,7 @@ const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
     const patchLike = async () => {
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/post/${_id}/like`,
+                `${process.env.REACT_APP_API_URL}/post/${_id}/like`,
                 {
                     method: 'PATCH',
                     headers: {
@@ -57,7 +57,7 @@ const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
     const handleLikeComment = async (commentId) => {
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/comment/${commentId}/like`,
+                `${process.env.REACT_APP_API_URL}/comment/${commentId}/like`,
                 {
                     method: 'PATCH',
                     headers: {
@@ -77,7 +77,7 @@ const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
     const handlePostCmt = async () => {
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/comment/create`,
+                `${process.env.REACT_APP_API_URL}/comment/create`,
                 {
                     method: 'POST',
                     headers: {
@@ -104,7 +104,7 @@ const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
         const getComments = async () => {
             try {
                 const res = await fetch(
-                    `${import.meta.env.VITE_API_URL}/comment/${_id}`
+                    `${process.env.REACT_APP_API_URL}/comment/${_id}`
                 );
                 const rs = await res.json();
                 setComments(rs);
@@ -133,7 +133,7 @@ const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
                     height="auto"
                     alt="post"
                     style={{ borderRadius: '0.75rem', marginTop: '0.75rem' }}
-                    src={`${import.meta.env.VITE_IMG_URL_PREFIX}${imgId}`}
+                    src={`${process.env.REACT_APP_IMG_URL_PREFIX}${imgId}`}
                 />
             )}
             <FlexBetween mt="0.25rem">

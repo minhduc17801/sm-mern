@@ -20,7 +20,7 @@ const Friend = ({ friendId, lastName, firstName, desc, imgId }) => {
     const handlePatchFriend = async () => {
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/user/${userId}/${friendId}`,
+                `${process.env.REACT_APP_API_URL}/user/${userId}/${friendId}`,
                 {
                     method: 'PATCH',
                     headers: {

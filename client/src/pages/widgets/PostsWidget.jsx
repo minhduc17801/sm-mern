@@ -9,7 +9,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const posts = useSelector((state) => state.posts);
     const getAllPosts = async () => {
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/post`);
+            const res = await fetch(`${process.env.REACT_APP_API_URL}/post`);
             const posts = await res.json();
             dispatch(setPosts(posts));
         } catch (error) {
@@ -20,7 +20,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     const getUserPosts = async () => {
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/post/${userId}/posts`
+                `${process.env.REACT_APP_API_URL}/post/${userId}/posts`
             );
             const posts = await res.json();
             dispatch(setPosts(posts));

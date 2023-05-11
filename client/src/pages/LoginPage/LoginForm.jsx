@@ -2,13 +2,13 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import {
     TextField,
-    Button,
     Box,
     useMediaQuery,
     useTheme,
     Typography,
     Modal,
 } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -25,6 +25,7 @@ const initialValues = {
 };
 
 const LoginForm = () => {
+    const [loading, setLoading] = useState(false);
     const [openLoginModal, setOpenModal] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -32,9 +33,10 @@ const LoginForm = () => {
     const isNonMobile = useMediaQuery('(min-width:600px)');
 
     const handleSubmit = async (values, formikBag) => {
+        setLoading(true);
         try {
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/auth/login`,
+                `${process.env.REACT_APP_API_URL}/auth/login`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -50,6 +52,8 @@ const LoginForm = () => {
             }
         } catch (error) {
             handleOpenModal();
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -118,19 +122,22 @@ const LoginForm = () => {
                     />
                 </Box>
                 <Box>
-                    <Button
+                    <LoadingButton
+                        loading={loading}
                         fullWidth
                         type="submit"
                         sx={{
                             m: '2rem 0',
                             p: '1rem',
-                            backgroundColor: palette.primary.main,
+                            backgroundColor: loading
+                                ? palette.neutral.medium
+                                : palette.primary.main,
                             color: palette.background.alt,
                             '&:hover': { color: palette.primary.main },
                         }}
                     >
                         LOGIN
-                    </Button>
+                    </LoadingButton>
                 </Box>
             </form>
             <div>

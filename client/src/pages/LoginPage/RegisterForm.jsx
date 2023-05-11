@@ -50,7 +50,7 @@ const RegisterForm = ({ setPageType }) => {
             }
 
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/auth/register`,
+                `${process.env.REACT_APP_API_URL}/auth/register`,
                 {
                     method: 'POST',
                     body: formData,

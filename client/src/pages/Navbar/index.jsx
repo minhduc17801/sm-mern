@@ -75,7 +75,7 @@ const Navbar = () => {
             try {
                 const res = await fetch(
                     `${
-                        import.meta.env.VITE_API_URL
+                        process.env.REACT_APP_API_URL
                     }/user/search/${debounceInputValue.trim()}`
                 );
                 const searchResult = await res.json();
@@ -182,7 +182,9 @@ const Navbar = () => {
                             <LightMode sx={{ color: dark, fontSize: '25px' }} />
                         )}
                     </IconButton>
-                    <Message sx={{ fontSize: '25px' }} />
+                    <IconButton onClick={() => navigate('/chat')}>
+                        <Message sx={{ fontSize: '25px' }} />
+                    </IconButton>
                     <Notifications sx={{ fontSize: '25px' }} />
                     <Help sx={{ fontSize: '25px' }} />
                     <FormControl variant="standard" value={fullName}>
@@ -278,7 +280,9 @@ const Navbar = () => {
                                     />
                                 )}
                             </IconButton>
-                            <Message sx={{ fontSize: '25px' }} />
+                            <IconButton onClick={() => navigate('/chat')}>
+                                <Message sx={{ fontSize: '25px' }} />
+                            </IconButton>
                             <Notifications sx={{ fontSize: '25px' }} />
                             <Help sx={{ fontSize: '25px' }} />
                             <FormControl variant="standard" value={fullName}>

@@ -8,7 +8,7 @@ const UserImg = ({ imgId, size = '60px' }) => {
                 width={size}
                 height={size}
                 alt="user"
-                src={`${import.meta.env.VITE_IMG_URL_PREFIX}${imgId}`}
+                src={`${process.env.REACT_APP_IMG_URL_PREFIX}${imgId}`}
             />
         </Box>
     );

@@ -19,7 +19,7 @@ function ProfilePage() {
         const getUser = async (userId) => {
             try {
                 const res = await fetch(
-                    `${import.meta.env.VITE_API_URL}/user/${userId}`
+                    `${process.env.REACT_APP_API_URL}/user/${userId}`
                 );
                 const user = await res.json();
                 setUser(user);

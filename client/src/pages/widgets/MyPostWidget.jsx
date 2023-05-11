@@ -47,7 +47,7 @@ const MyPostWidget = ({ imgId }) => {
                 form.append('image', image);
             }
             const res = await fetch(
-                `${import.meta.env.VITE_API_URL}/post/create`,
+                `${process.env.REACT_APP_API_URL}/post/create`,
                 {
                     method: 'POST',
                     headers: {

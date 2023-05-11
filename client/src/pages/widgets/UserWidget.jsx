@@ -10,6 +10,8 @@ import {
     WorkOutlineOutlined,
     EditOutlined,
 } from '@mui/icons-material';
+import twitter from '../../assets/twitter.png';
+import linkedin from '../../assets/linkedin.png';
 
 const UserWidget = ({ userId }) => {
     const [user, setUser] = useState(null);
@@ -20,7 +22,7 @@ const UserWidget = ({ userId }) => {
         const getUser = async (id) => {
             try {
                 const res = await fetch(
-                    `${import.meta.env.VITE_API_URL}/user/${id}`
+                    `${process.env.REACT_APP_API_URL}/user/${id}`
                 );
                 if (res.status >= 200 && res.status <= 299) {
                     const user = await res.json();
@@ -105,7 +107,7 @@ const UserWidget = ({ userId }) => {
 
                 <FlexBetween gap="1rem" mb="0.5rem">
                     <FlexBetween gap="1rem">
-                        <img src="../assets/images/twitter.png" alt="twitter" />
+                        <img src={twitter} alt="twitter" />
                         <Box>
                             <Typography
                                 color={palette.neutral.main}
@@ -123,10 +125,7 @@ const UserWidget = ({ userId }) => {
 
                 <FlexBetween gap="1rem">
                     <FlexBetween gap="1rem">
-                        <img
-                            src="../assets/images/linkedin.png"
-                            alt="linkedin"
-                        />
+                        <img src={linkedin} alt="linkedin" />
                         <Box>
                             <Typography
                                 color={palette.neutral.main}
