@@ -8,7 +8,7 @@ const ChatPage = () => {
             <PrettyChatWindow
                 height="100vh"
                 projectId="
-5a21930a-fa0d-46fd-8ccf-3d1f4e464601"
+8b93511b-f783-432c-9787-e65aa77366d9"
                 username={email}
                 secret={email}
             />
