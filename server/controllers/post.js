@@ -1,5 +1,5 @@
 import Post from '../models/Post.js';
-import { uploadToDrive } from '../utils/googleDrive.js';
+import { deleteOnDrive, uploadToDrive } from '../utils/googleDrive.js';
 
 // POST /create
 export const createPost = async (req, res) => {
@@ -74,6 +74,26 @@ export const likePost = async (req, res) => {
         const postPopulated = await post.populate('user');
         post.save();
         res.status(200).json(postPopulated);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// DELETE /:id/delete
+export const deletePost = async (req, res) => {
+    try {
+        const { userId } = req.body;
+        const { id } = req.params;
+        if (userId !== req.user.id)
+            return res.status(403).json({ msg: 'access denied' });
+        const post = await Post.findByIdAndDelete(id);
+        if (post.imgId) {
+            await deleteOnDrive(post.imgId);
+        }
+        const posts = await Post.find()
+            .populate('user')
+            .sort({ createdAt: -1 });
+        res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

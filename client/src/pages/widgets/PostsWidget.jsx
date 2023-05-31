@@ -16,7 +16,6 @@ const PostsWidget = ({ userId, isProfile = false }) => {
             console.log(error);
         }
     };
-
     const getUserPosts = async () => {
         try {
             const res = await fetch(
@@ -44,7 +43,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
                 <Post
                     key={index}
                     {...post}
-                    userimgId={post.user.imgId}
+                    userImgId={post.user.imgId}
                     userId={post.user._id}
                 />
             ))}

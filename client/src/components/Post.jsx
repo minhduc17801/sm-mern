@@ -15,19 +15,20 @@ import {
     ChatBubbleOutlineOutlined,
     FavoriteOutlined,
     FavoriteBorderOutlined,
+    DeleteOutline,
 } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { setPost } from '../state/reducer';
+import { setPosts, setPost } from '../state/reducer';
 import UserImg from './UserImg';
 
-const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
+const Post = ({ _id, user, userId, description, userImgId, imgId, likes }) => {
     const [cmtInput, setCmtInput] = useState('');
     const [comments, setComments] = useState([]);
     const { firstName, lastName, location } = user;
     const { palette } = useTheme();
     const loggedInUserId = useSelector((state) => state.user._id);
-    const loggedInUserimgId = useSelector((state) => state.user.imgId);
+    const loggedInUserImgId = useSelector((state) => state.user.imgId);
     const isLiked = Boolean(likes.some((id) => id === loggedInUserId));
     const likeCount = Object.keys(likes).length;
     const [isComments, setIsComments] = useState(false);
@@ -47,8 +48,29 @@ const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
                     body: JSON.stringify({ userId: loggedInUserId }),
                 }
             );
-            const post = await res.json();
-            dispatch(setPost(post));
+            const posts = await res.json();
+            dispatch(setPost(posts));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleDelete = async () => {
+        try {
+            const res = await fetch(
+                `${process.env.REACT_APP_API_URL}/post/${_id}/delete`,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        authorization: 'Bearer ' + token,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ userId: loggedInUserId }),
+                }
+            );
+            const posts = await res.json();
+            console.log(posts);
+            dispatch(setPosts(posts));
         } catch (error) {
             console.log(error);
         }
@@ -114,16 +136,22 @@ const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
         };
         getComments();
     }, [_id]);
-
     return (
         <WidgetWrapper mb="2rem">
-            <Friend
-                friendId={userId}
-                lastName={lastName}
-                firstName={firstName}
-                desc={location}
-                imgId={userimgId}
-            />
+            <FlexBetween>
+                <Friend
+                    friendId={userId}
+                    lastName={lastName}
+                    firstName={firstName}
+                    desc={location}
+                    imgId={userImgId}
+                />
+                {userId === loggedInUserId && (
+                    <IconButton onClick={handleDelete}>
+                        <DeleteOutline />
+                    </IconButton>
+                )}
+            </FlexBetween>
             <Typography color={palette.neutral.main} sx={{ mt: '1rem' }}>
                 {description}
             </Typography>
@@ -225,7 +253,7 @@ const Post = ({ _id, user, userId, description, userimgId, imgId, likes }) => {
                     ))}
                     <Divider />
                     <FlexBetween gap="1rem" mt="8px">
-                        <UserImg imgId={loggedInUserimgId} size="40px" />
+                        <UserImg imgId={loggedInUserImgId} size="40px" />
                         <InputBase
                             value={cmtInput}
                             onChange={(e) => setCmtInput(e.target.value)}
