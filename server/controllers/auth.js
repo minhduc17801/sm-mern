@@ -14,7 +14,7 @@ export const register = async (req, res) => {
         const buffer = fs.readFileSync(req.file.path);
         const blob = new Blob([buffer], { type: 'application/octet-stream' });
         const myHeaders = new Headers();
-        myHeaders.append('PRIVATE-KEY', 'a7251180-2758-4176-a610-53c74e11fdf9');
+        myHeaders.append('PRIVATE-KEY', '1efc4089-b2f2-40fa-94e7-54612d8ed6d7');
         const formData = new FormData();
         formData.append('avatar', blob, req.file.originalname);
         formData.append('username', email);
