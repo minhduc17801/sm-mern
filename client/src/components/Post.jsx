@@ -157,6 +157,7 @@ const Post = ({ _id, user, userId, description, userImgId, imgId, likes }) => {
             </Typography>
             {imgId && (
                 <img
+                    referrerPolicy="no-referrer"
                     width="100%"
                     height="auto"
                     alt="post"
